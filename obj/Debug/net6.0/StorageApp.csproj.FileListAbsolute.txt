@@ -1,0 +1,15 @@
+/Users/coppe/StorageApp/bin/Debug/net6.0/StorageApp
+/Users/coppe/StorageApp/bin/Debug/net6.0/StorageApp.deps.json
+/Users/coppe/StorageApp/bin/Debug/net6.0/StorageApp.runtimeconfig.json
+/Users/coppe/StorageApp/bin/Debug/net6.0/StorageApp.dll
+/Users/coppe/StorageApp/bin/Debug/net6.0/StorageApp.pdb
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.csproj.AssemblyReference.cache
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.AssemblyInfoInputs.cache
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.AssemblyInfo.cs
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.csproj.CoreCompileInputs.cache
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.dll
+/Users/coppe/StorageApp/obj/Debug/net6.0/refint/StorageApp.dll
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.pdb
+/Users/coppe/StorageApp/obj/Debug/net6.0/StorageApp.genruntimeconfig.cache
+/Users/coppe/StorageApp/obj/Debug/net6.0/ref/StorageApp.dll

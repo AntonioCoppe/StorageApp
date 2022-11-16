@@ -1,9 +1,9 @@
 namespace WireMockDemo.Entities
 {
-    public class Employee
+    public class Employee : EntityBase
     {
-        public int Id { get; set; }
         public string? FirstName { get; set; }
-        public string? Department { get; set; }
+
+        public override string ToString() => $"{Id} - {FirstName}";
     }
 }
