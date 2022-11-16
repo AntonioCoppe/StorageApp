@@ -1,9 +1,15 @@
-namespace  WireMockDemo.Entities {
-    public class GenericRepository<T> where T : IEntity
- 
+using WireMockDemo.Entities;
+
+namespace WireMockDemo.Entity
+{
+    public class ListRepository<T> : IRepository<T> where T : IEntity
     {
         private readonly List<T> _items = new();
 
+         public IEnumerable<T> GetAll()
+        {
+            return _items.ToList();
+        }
         public T? GetById(int id) 
         {
             return _items.Single(item=> item.Id == id);
@@ -24,5 +30,7 @@ namespace  WireMockDemo.Entities {
             Console.WriteLine(item);
         }
        }
+
+       
     }
 }
