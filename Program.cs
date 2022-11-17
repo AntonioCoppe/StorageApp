@@ -1,5 +1,4 @@
-﻿using WireMockDemo.Entity;
-using WireMockDemo.StorageApp.Data;
+﻿using WireMockDemo.StorageApp.Data;
 
 namespace WireMockDemo.Entities
 {
@@ -8,8 +7,8 @@ namespace WireMockDemo.Entities
         static void Main(string[] args)
         {
 
-            var ItemAdded = new ItemAdded(EmployeeAdded);
-            var employeeRepository = new SqlRepository<Employee>(new StorageAppDbContext(), ItemAdded);
+            ItemAdded<Employee> itemAdded = new ItemAdded<Employee>(EmployeeAdded);
+            var employeeRepository = new SqlRepository<Employee>(new StorageAppDbContext(), EmployeeAdded);
 
             AddEmployees(employeeRepository);
             AddManagers(employeeRepository);
@@ -82,8 +81,17 @@ namespace WireMockDemo.Entities
                 new Organization {Name = "Apple"},
             };
             organizationRepository.AddBatch(organizations);
-        }  
+        }
 
+        private class ItemAdded<T>
+        {
+            private Action<object> employeeAdded;
+
+            public ItemAdded(Action<object> employeeAdded)
+            {
+                this.employeeAdded = employeeAdded;
+            }
+        }
     }
 }
 
