@@ -1,43 +1,52 @@
 using Microsoft.EntityFrameworkCore;
-
-
+using WireMockDemo.StorageApp.Data;
 
 namespace WireMockDemo.Entities
 {
-    public delegate void ItemAdded(Object item);
     public class SqlRepository<T> : IRepository<T> where T : class, IEntity
+  {
+    private readonly DbContext _dbContext;
+    private readonly DbSet<T> _dbSet;
+        private StorageAppDbContext storageAppDbContext;
+
+        public SqlRepository(DbContext dbContext, Action<object> employeeAdded)
     {
-        private readonly DbSet<T> _dbSet;
-        private readonly ItemAdded? _itemAddedCallback;
-        private readonly DbContext _dbContext;
-        
-        public IEnumerable<T> GetAll()
+      _dbContext = dbContext;
+      _dbSet = _dbContext.Set<T>();
+    }
+
+        public SqlRepository(StorageAppDbContext storageAppDbContext)
         {
-            return _dbSet.OrderBy(item=>item.Id).ToList();
+            this.storageAppDbContext = storageAppDbContext;
         }
 
-        public SqlRepository(DbContext dbContext, ItemAdded? ItemAddedCallback = null)
-        {
-            _dbContext = dbContext;
-            _dbSet = _dbContext.Set<T>();
-        }
-        public T? GetById(int id)
-        {
-            return _dbSet.Find(id);
-        }
-        public void Add(T item)
-        {
-            _dbSet.Add(item);
-            _itemAddedCallback?.Invoke(item);
-        }
-        public void Remove(T item)
-        {
-            _dbSet.Remove(item);
-        }
-        public void save()
-        {
-            _dbContext.SaveChanges();
-        }
+        public event EventHandler<T>? ItemAdded;
+
+    public IEnumerable<T> GetAll()
+    {
+      return _dbSet.OrderBy(item => item.Id).ToList();
+    }
+
+    public T GetById(int id)
+    {
+      return _dbSet.Find(id);
+    }
+
+    public void Add(T item)
+    {
+      _dbSet.Add(item);
+      ItemAdded?.Invoke(this, item);
+    }
+
+    public void Remove(T item)
+    {
+      _dbSet.Remove(item);
+    }
+
+    public void Save()
+    {
+      _dbContext.SaveChanges();
+    }
 
         public T Get(int id)
         {
@@ -45,6 +54,11 @@ namespace WireMockDemo.Entities
         }
 
         public void Add(object johnManagerCopy)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void save()
         {
             throw new NotImplementedException();
         }
