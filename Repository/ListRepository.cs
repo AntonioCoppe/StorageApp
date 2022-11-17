@@ -32,5 +32,10 @@ namespace WireMockDemo.Entity
         {
             throw new NotImplementedException();
         }
+
+        public void Add(object johnManagerCopy)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

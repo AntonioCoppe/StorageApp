@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WireMockDemo.Entities
 {
+    public delegate void ItemAdded(Object item);
     public class SqlRepository<T> : IRepository<T> where T : class, IEntity
     {
         private readonly DbSet<T> _dbSet;
+        private readonly ItemAdded? _itemAddedCallback;
         private readonly DbContext _dbContext;
         
         public IEnumerable<T> GetAll()
@@ -14,7 +16,7 @@ namespace WireMockDemo.Entities
             return _dbSet.OrderBy(item=>item.Id).ToList();
         }
 
-        public SqlRepository(DbContext dbContext)
+        public SqlRepository(DbContext dbContext, ItemAdded? ItemAddedCallback = null)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
@@ -26,6 +28,7 @@ namespace WireMockDemo.Entities
         public void Add(T item)
         {
             _dbSet.Add(item);
+            _itemAddedCallback?.Invoke(item);
         }
         public void Remove(T item)
         {
@@ -37,6 +40,11 @@ namespace WireMockDemo.Entities
         }
 
         public T Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(object johnManagerCopy)
         {
             throw new NotImplementedException();
         }

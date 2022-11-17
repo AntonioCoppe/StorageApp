@@ -5,6 +5,7 @@ namespace WireMockDemo.Entities
     public interface IWriteRepository<in T>
     {
         void Add(T item);
+        void Add(object johnManagerCopy);
         void Remove(T item);
         void save();
     }
