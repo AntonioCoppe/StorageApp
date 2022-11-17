@@ -1,12 +1,16 @@
 ﻿using WireMockDemo.Entity;
 using WireMockDemo.StorageApp.Data;
 
-namespace WireMockDemo.Entities{
-    class Program{
+namespace WireMockDemo.Entities
+{
+    class Program
+    {
         static void Main(string[] args)
         {
-            var employeeRepository = new SqlRepository<Employee>(new StorageAppDbContext());
-            
+
+            var ItemAdded = new ItemAdded(EmployeeAdded);
+            var employeeRepository = new SqlRepository<Employee>(new StorageAppDbContext(), ItemAdded);
+
             AddEmployees(employeeRepository);
             AddManagers(employeeRepository);
             GetEmployeeById(employeeRepository);
@@ -20,10 +24,25 @@ namespace WireMockDemo.Entities{
             WriteAllToConsole(organizationRepository);
         }
 
+        private static void EmployeeAdded(object item)
+        {
+            var employee = (Employee) item;
+            Console.WriteLine($"Employee Added {employee.FirstName}");
+        }
+
         private static void AddManagers(IWriteRepository<Manager> MangerRepository)
         {
-            MangerRepository.Add(new Manager {FirstName = "John"});
-            MangerRepository.Add(new Manager {FirstName = "Jane"});
+            var JohnManager = new Manager { FirstName = "John" };
+            //var JohnManagerCopy = JohnManager.Copy();
+            MangerRepository.Add(JohnManager);
+
+            if(JohnManager is not null)
+            {
+                JohnManager.FirstName+="_Copy";
+                //MangerRepository.Add(JohnManagerCopy);
+            }
+
+            MangerRepository.Add(new Manager { FirstName = "Jane" });
             MangerRepository.save();
         }
 
@@ -36,16 +55,18 @@ namespace WireMockDemo.Entities{
             }
         }
 
-      
+
         private static void AddEmployees(IRepository<Employee> employeeRepository)
         {
-            employeeRepository.Add(new Employee { FirstName = "John" });
-            employeeRepository.Add(new Employee { FirstName = "Jane" });
-            employeeRepository.Add(new Employee { FirstName = "Joe" });
-            employeeRepository.save();
-
+            var employees = new[]
+            {
+                new Employee {FirstName = "John"},
+                new Employee {FirstName = "Jane"},
+                new Employee {FirstName = "Jack"}
+            };
+            employeeRepository.AddBatch(employees);
         }
-          private static void GetEmployeeById(IRepository<Employee> employeeRepository)
+        private static void GetEmployeeById(IRepository<Employee> employeeRepository)
         {
             //var employee = employeeRepository.GetById(2);
             Console.WriteLine("$Employee with id 2: {employee.FirstName}");
@@ -54,11 +75,15 @@ namespace WireMockDemo.Entities{
 
         private static void AddOrganization(IRepository<Organization> organizationRepository)
         {
-            organizationRepository.Add(new Organization { Name = "Microsoft" });
-            organizationRepository.Add(new Organization { Name = "Google" });
-            organizationRepository.Add(new Organization { Name = "Apple" });
-            organizationRepository.save();
-        }
+            var organizations = new[]
+            {
+                new Organization {Name = "Microsoft"},
+                new Organization {Name = "Google"},
+                new Organization {Name = "Apple"},
+            };
+            organizationRepository.AddBatch(organizations);
+        }  
+
     }
 }
-    
+
