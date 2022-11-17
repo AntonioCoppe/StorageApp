@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace WireMockDemo.Entities
 {
     public class SqlRepository<T> : IRepository<T> where T : class, IEntity
@@ -10,7 +11,7 @@ namespace WireMockDemo.Entities
         
         public IEnumerable<T> GetAll()
         {
-            return _dbSet.ToList();
+            return _dbSet.OrderBy(item=>item.Id).ToList();
         }
 
         public SqlRepository(DbContext dbContext)
@@ -35,6 +36,9 @@ namespace WireMockDemo.Entities
             _dbContext.SaveChanges();
         }
 
-
+        public T Get(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

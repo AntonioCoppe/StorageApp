@@ -8,17 +8,26 @@ namespace WireMockDemo.Entities{
             var employeeRepository = new SqlRepository<Employee>(new StorageAppDbContext());
             
             AddEmployees(employeeRepository);
+            AddManagers(employeeRepository);
             GetEmployeeById(employeeRepository);
             WriteAllToConsole(employeeRepository);
+
+            IWriteRepository<Manager> repo = new SqlRepository<Employee>(new StorageAppDbContext());
+
 
             var organizationRepository = new ListRepository<Organization>();
             AddOrganization(organizationRepository);
             WriteAllToConsole(organizationRepository);
         }
 
-        IRepository<IEntity> repo = new ListRepository<Organization>();
+        private static void AddManagers(IWriteRepository<Manager> MangerRepository)
+        {
+            MangerRepository.Add(new Manager {FirstName = "John"});
+            MangerRepository.Add(new Manager {FirstName = "Jane"});
+            MangerRepository.save();
+        }
 
-        private static void WriteAllToConsole(IRepository<IEntity> repository)
+        private static void WriteAllToConsole(IReadRepository<IEntity> repository)
         {
             var items = repository.GetAll();
             foreach (var item in items)
@@ -38,7 +47,7 @@ namespace WireMockDemo.Entities{
         }
           private static void GetEmployeeById(IRepository<Employee> employeeRepository)
         {
-            var employee = employeeRepository.GetById(2);
+            //var employee = employeeRepository.GetById(2);
             Console.WriteLine("$Employee with id 2: {employee.FirstName}");
         }
 

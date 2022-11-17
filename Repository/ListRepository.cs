@@ -25,12 +25,12 @@ namespace WireMockDemo.Entity
        }
        public void save()
        {
-        foreach (var item in _items)
-        {
-            Console.WriteLine(item);
-        }
+        // everything is saved already in the list of <T>
        }
 
-       
+        public T Get(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,13 +1,22 @@
 
 
-namespace WireMockDemo.Entities{
-     public interface IRepository<out T> where T : IEntity
+namespace WireMockDemo.Entities
+{
+    public interface IWriteRepository<in T>
     {
-        IEnumerable<T> GetAll();
-        T? GetById(int id);
         void Add(T item);
         void Remove(T item);
         void save();
+    }
+
+    public interface IReadRepository<out T>
+    {
+        IEnumerable<T> GetAll();
+        T Get(int id);
+    }
+    public interface IRepository<T> : IReadRepository<T>, IWriteRepository<T> where T : IEntity
+    {
+       
     }
 }    
    
